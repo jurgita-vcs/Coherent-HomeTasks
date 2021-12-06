@@ -13,53 +13,71 @@ namespace Task01_1
                 var b = int.Parse(Console.ReadLine());
 
                 Console.WriteLine("Ternary numbers sequence: ");
-                PrintTernaryNumber(a, b);
+                if (a <= b)
+                {
+                    PrintConvertedTernaryNumbers(a, b);
+                    Console.WriteLine("Numbers that have exactly two 2's: ");
+                    PrintTwoOfTwos(a, b);
+                }
+                else
+                {
+                    PrintConvertedTernaryNumbers(b, a);
+                    Console.WriteLine("Numbers that have exactly two 2's: ");
+                    PrintTwoOfTwos(b, a);
+                }
             }
             catch (FormatException)
             {
                 Console.WriteLine("Please, input integer numbers");
             }
         }
-        private static bool IsNumberTernary(int number)
+
+        private static int CountOccurrenceOfTwo(int number)
         {
+            var count = 0;
+
             while (number > 0)
             {
-                var num = number % 10;
-
-                if ((num != 0) && (num != 1) && (num != 2))
-                {
-                    return (false);
-                }
-                number = number / 10;
-
-                if (number == 0)
-                {
-                    return (true);
-                }
+                var remainder = number % 10;
+                if (remainder == 2)
+                    count++;
+                number /= 10;
             }
-            return false;
+
+            return count;
         }
-        private static void PrintTernaryNumber(int a, int b)
+
+        private static int CountTwoOfTwos(int number)
         {
-            if (a < b)
+            return CountOccurrenceOfTwo(number) == 2 ? number : 0;
+        }
+
+        private static int ConvertNumberToTernary(int number)
+        {
+            var result = string.Empty;
+            while (number > 0)
             {
-                for (var i = a; i <= b; i++)
-                {
-                    if (IsNumberTernary(i))
-                    {
-                        Console.Write(i + " ");
-                    }
-                }
+                result = number % 3 + result;
+                number /= 3;
             }
-            else
+
+            return Convert.ToInt32(result);
+        }
+
+        private static void PrintConvertedTernaryNumbers(int a, int b)
+        {
+            for (var i = a; i <= b; i++) 
+                Console.WriteLine(ConvertNumberToTernary(i));
+        }
+
+        private static void PrintTwoOfTwos(int a, int b)
+        {
+            for (var i = a; i <= b; i++)
             {
-                for (var i = a; i >= b; i--)
-                {
-                    if (IsNumberTernary(i))
-                    {
-                        Console.Write(i + " ");
-                    }
-                }
+                var number1 = ConvertNumberToTernary(i);
+                var number2 = CountTwoOfTwos(ConvertNumberToTernary(i));
+                if (number1 == number2) 
+                    Console.WriteLine(number1 + " ");
             }
         }
     }
