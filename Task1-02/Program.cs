@@ -1,52 +1,46 @@
 ﻿using System;
 
-namespace Task1_02
+namespace Task01_02
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Please, enter 9 character-digits: ");
+            string isbnNumber = Console.ReadLine();
 
-            String isbnNumber = null;
+            var isValid = IsValidIsbn(isbnNumber);
 
-            //contains the method for checking validity 
-            var isValid = CheckIsbn(isbnNumber);
-
-            //print out the results of the validity.
             Console.WriteLine($"Your book {(isValid ? "has" : "doesn't have")} a valid ISBN");
-
-            Console.ReadLine();
         }
 
-        private static string NormalizeIsbn(string isbn)
+        private static bool IsValidIsbn(string isbn)
         {
-            return isbn.Replace("-", "").Replace(" ", "");
-        }
-
-        private static bool CheckIsbn(string isbn)
-        {
-            if (isbn == null)
+            var n = isbn.Length;
+            if (n != 10)
                 return false;
 
-            isbn = NormalizeIsbn(isbn);
-            if (isbn.Length != 10)
-                return false;
+            var sum = 0;
 
-            int result;
-            for (int i = 0; i < 9; i++)
-                if (!int.TryParse(isbn[i].ToString(), out result))
+            for (var i = 0; i < 9; i++)
+            {
+                var digit = isbn[i] - '0';
+
+                if (digit < 0 || digit > 9)
                     return false;
 
-            int sum = 0;
-            for (int i = 0; i < 9; i++)
-                sum += (i + 1) * int.Parse(isbn[i].ToString());
+                sum += digit * (10 - i);
+            }
 
-            int remainder = sum % 11;
-            if (remainder == 10)
-                return isbn[9] == 'X';
-            else
-                return isbn[9] == (char)('0' + remainder);
+            // Checking last digit.
+            var last = isbn[9];
+
+            if (last != 'X' && (last < '0' || last > '9'))
+                return false;
+
+            sum += last == 'X' ? 10 : last - '0';
+
+            return sum % 11 == 0;
         }
     }
 }
