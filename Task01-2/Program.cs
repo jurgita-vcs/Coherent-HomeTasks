@@ -18,7 +18,9 @@ namespace Task01_2
         {
             var n = isbn.Length;
             if (n != 10)
+            {
                 return false;
+            }
 
             var sum = 0;
 
@@ -27,7 +29,9 @@ namespace Task01_2
                 var digit = isbn[i] - '0';
 
                 if (digit < 0 || digit > 9)
+                {
                     return false;
+                }
 
                 sum += digit * (10 - i);
             }
@@ -36,7 +40,9 @@ namespace Task01_2
             var last = isbn[9];
 
             if (last != 'X' && (last < '0' || last > '9'))
+            {
                 return false;
+            }
 
             sum += last == 'X' ? 10 : last - '0';
 
