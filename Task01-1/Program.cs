@@ -12,19 +12,9 @@ namespace Task01_1
                 var a = int.Parse(Console.ReadLine());
                 var b = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Ternary numbers sequence: ");
-                if (a <= b)
-                {
-                    PrintConvertedTernaryNumbers(a, b);
-                    Console.WriteLine("Numbers that have exactly two 2's: ");
-                    PrintTwoOfTwos(a, b);
-                }
-                else
-                {
-                    PrintConvertedTernaryNumbers(b, a);
-                    Console.WriteLine("Numbers that have exactly two 2's: ");
-                    PrintTwoOfTwos(b, a);
-                }
+                Console.WriteLine("Numbers that have exactly two 2's: ");
+
+                Console.WriteLine(a <= b ? PrintTwoOfTwos(a, b) : PrintTwoOfTwos(b, a));
             }
             catch (FormatException)
             {
@@ -47,11 +37,6 @@ namespace Task01_1
             return count;
         }
 
-        private static int CountTwoOfTwos(int number)
-        {
-            return CountOccurrenceOfTwo(number) == 2 ? number : 0;
-        }
-
         private static int ConvertNumberToTernary(int number)
         {
             var result = string.Empty;
@@ -64,21 +49,17 @@ namespace Task01_1
             return Convert.ToInt32(result);
         }
 
-        private static void PrintConvertedTernaryNumbers(int a, int b)
-        {
-            for (var i = a; i <= b; i++) 
-                Console.WriteLine(ConvertNumberToTernary(i));
-        }
-
-        private static void PrintTwoOfTwos(int a, int b)
+        private static int PrintTwoOfTwos(int a, int b)
         {
             for (var i = a; i <= b; i++)
             {
-                var number1 = ConvertNumberToTernary(i);
-                var number2 = CountTwoOfTwos(ConvertNumberToTernary(i));
-                if (number1 == number2) 
-                    Console.WriteLine(number1 + " ");
+                if (CountOccurrenceOfTwo(ConvertNumberToTernary(i)) == 2)
+                {
+                    return i;
+                }
             }
+
+            return 0;
         }
     }
 }
