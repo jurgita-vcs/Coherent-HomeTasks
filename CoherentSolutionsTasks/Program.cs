@@ -6,7 +6,7 @@ namespace CoherentSolutionsTasks
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Coherent Solutions Tasks");
         }
     }
 }
